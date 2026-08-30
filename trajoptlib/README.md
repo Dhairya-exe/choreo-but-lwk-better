@@ -1,0 +1,78 @@
+# TrajoptLib
+
+![Build](https://github.com/SleipnirGroup/Choreo/actions/workflows/trajoptlib.yml/badge.svg)
+
+TrajoptLib is a library for generating time-optimal drivetrain trajectories subject to waypoint, kinematic, and dynamic constraints.
+
+## Features
+
+* Currently only supports swerve drives with arbitrary module configurations
+* Position and velocity constraints at each waypoint
+* Keep-out circle and polygons
+* Custom physical constraints of robot
+* Custom bumper shape
+
+## Build
+
+### Dependencies
+
+* C++23 compiler
+  * On Windows 11 or greater, install [Visual Studio Community 2022](https://visualstudio.microsoft.com/vs/community/) and select the C++ programming language during installation
+  * On Ubuntu 24.04 or greater, install GCC 14 via `sudo apt install g++-14`
+  * On macOS 14 or greater, install the Xcode 15.3 command-line build tools via `xcode-select --install`
+* [CMake](https://cmake.org/download/) 3.21 or greater
+  * On Windows, install from the link above
+  * On Linux, install via `sudo apt install cmake`
+  * On macOS, install via `brew install cmake`
+* [Rust](https://www.rust-lang.org/) compiler
+* [Sleipnir](https://github.com/SleipnirGroup/Sleipnir)
+* [Catch2](https://github.com/catchorg/Catch2) (tests only)
+
+Library dependencies which aren't installed locally will be automatically downloaded and built by CMake.
+
+### C++ library
+
+On Windows, open a [Developer PowerShell](https://learn.microsoft.com/en-us/visualstudio/ide/reference/command-prompt-powershell?view=vs-2022). On Linux or macOS, open a Bash shell.
+
+```bash
+# Clone the repository
+git clone git@github.com:SleipnirGroup/Choreo
+cd Choreo/trajoptlib
+
+# Configure
+cmake -B build -S .
+
+# Build
+cmake --build build
+
+# Test
+ctest --test-dir build --output-on-failure
+
+# Install
+cmake --install build --prefix pkgdir
+```
+
+The following build types can be specified via `-DCMAKE_BUILD_TYPE` during CMake configure:
+
+* Debug
+  * Optimizations off
+  * Debug symbols on
+* Release
+  * Optimizations on
+  * Debug symbols off
+* RelWithDebInfo (default)
+  * Release build type, but with debug info
+* MinSizeRel
+  * Minimum size release build
+
+### Rust library
+
+On Windows, open a [Developer PowerShell](https://learn.microsoft.com/en-us/visualstudio/ide/reference/command-prompt-powershell?view=vs-2022). On Linux or macOS, open a Bash shell.
+
+```bash
+# Clone the repository
+git clone git@github.com:SleipnirGroup/Choreo
+cd Choreo/trajoptlib
+
+cargo build
+```

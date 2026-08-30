@@ -1,0 +1,279 @@
+.Trigger {
+  position: absolute !important;
+  z-index: 8;
+  top: 12px;
+  right: 70px;
+  min-width: 92px !important;
+  height: 40px;
+  padding-inline: 12px !important;
+  border-radius: 14px !important;
+  background: var(--glass-surface-strong) !important;
+  background-image: var(--glass-sheen) !important;
+  box-shadow: var(--glass-shadow) !important;
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+}
+
+.Panel {
+  position: absolute;
+  z-index: 7;
+  top: 60px;
+  right: 70px;
+  display: flex;
+  width: min(340px, calc(100% - 96px));
+  max-height: min(520px, calc(100% - 76px));
+  flex-direction: column;
+  overflow: hidden;
+  color: var(--text-primary);
+  background: var(--glass-surface-strong);
+  background-image: var(--glass-sheen);
+  border: 1px solid var(--glass-border);
+  border-radius: 22px;
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(28px) saturate(155%);
+  -webkit-backdrop-filter: blur(28px) saturate(155%);
+}
+
+.Header {
+  display: flex;
+  min-height: 48px;
+  padding: 6px 8px 6px 14px;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--divider-gray);
+}
+
+.Title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.Actions {
+  display: flex;
+  padding: 8px 10px;
+  gap: 6px;
+  border-bottom: 1px solid var(--divider-gray);
+}
+
+.Actions button {
+  min-height: 30px;
+  flex: 1;
+  font-size: 0.76rem;
+}
+
+.List {
+  display: flex;
+  min-height: 64px;
+  padding: 6px;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.Sweeps {
+  padding: 10px;
+  overflow-y: auto;
+  border-top: 1px solid var(--divider-gray);
+}
+
+.SweepHeader {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(120px, 0.9fr);
+  align-items: center;
+  gap: 8px;
+}
+
+.SweepHeader > span {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 6px;
+  overflow: hidden;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.FilterSelect {
+  min-width: 0;
+  font-size: 0.76rem !important;
+}
+
+.SweepList {
+  display: flex;
+  margin-top: 9px;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.SweepRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 32px;
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: 10px;
+}
+
+.SweepRowActive {
+  background: var(--glass-control-hover);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.SweepButton {
+  display: grid;
+  min-width: 0;
+  padding: 7px 8px;
+  grid-template-columns: 12px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  color: inherit;
+  text-align: left;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.SweepButton > span:nth-child(2) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.SweepButton small,
+.SweepHint {
+  color: var(--text-secondary);
+  font-size: 0.68rem;
+}
+
+.SweepCreator {
+  display: grid;
+  margin-top: 10px;
+  padding: 10px;
+  gap: 8px;
+  background: var(--glass-control);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+}
+
+.Range {
+  min-width: 0;
+  padding: 0 10px 2px;
+}
+
+.Range > span {
+  color: var(--text-secondary);
+  font-size: 0.7rem;
+}
+
+.Range :global(.MuiSlider-root) {
+  margin-bottom: 7px;
+}
+
+.Range :global(.MuiSlider-markLabel) {
+  color: var(--text-secondary);
+  font-size: 0.62rem;
+}
+
+.Row {
+  display: grid;
+  min-height: 44px;
+  padding: 3px 6px;
+  grid-template-columns: 30px 12px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+}
+
+.Row:hover {
+  background: var(--glass-control-hover);
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+.Swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  box-shadow: 0 0 10px currentColor;
+}
+
+.PathButton {
+  min-width: 0 !important;
+  padding: 5px 3px !important;
+  justify-content: flex-start !important;
+  overflow: hidden;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.PathName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.Status {
+  color: var(--text-secondary);
+  font-size: 0.67rem;
+  white-space: nowrap;
+}
+
+.Current {
+  padding: 3px 7px;
+  color: var(--accent-purple);
+  background: rgba(159, 146, 255, 0.13);
+  border: 1px solid rgba(159, 146, 255, 0.22);
+  border-radius: 999px;
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.Empty {
+  padding: 18px;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  text-align: center;
+}
+
+.SimpleBody {
+  display: flex;
+  padding: 12px;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+}
+
+.Chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.SimpleCreator {
+  display: flex;
+  padding: 10px 12px 12px;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--glass-control);
+  border: 1px solid var(--glass-border);
+  border-radius: 13px;
+}
+
+.CreatorTop {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.RangeLabel {
+  margin-top: 4px;
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+}

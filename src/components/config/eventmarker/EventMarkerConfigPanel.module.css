@@ -1,0 +1,40 @@
+.WaitCard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  background: var(--glass-control);
+  box-shadow: inset 0 1px 0 var(--glass-highlight);
+}
+
+.WaitToggle {
+  width: 100%;
+  margin: 0 !important;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.WaitToggle :global(.MuiFormControlLabel-label) {
+  order: -1;
+  flex: 1;
+}
+
+.WaitLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.WaitLabel strong {
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  font-weight: 650;
+}
+
+.WaitLabel small {
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  line-height: 1.35;
+}

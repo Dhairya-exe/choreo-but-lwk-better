@@ -1,0 +1,58 @@
+.Panel {
+  display: flex;
+  width: min(720px, calc(100vw - 80px));
+  margin: 0 auto;
+  padding: 18px;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.Intro {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.AddRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+
+.List {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.Row {
+  display: grid;
+  min-height: 52px;
+  padding: 6px 10px;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  background: var(--glass-control);
+  border: 1px solid var(--glass-border);
+  border-radius: 13px;
+}
+
+.Name {
+  overflow: hidden;
+  font-family: "Roboto Mono Variable", monospace;
+  font-size: 0.88rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.Status {
+  color: var(--text-secondary);
+  font-size: 0.68rem;
+}
+
+.Empty {
+  padding: 26px;
+  color: var(--text-secondary);
+  text-align: center;
+}

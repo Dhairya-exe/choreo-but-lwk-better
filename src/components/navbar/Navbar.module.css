@@ -1,0 +1,195 @@
+.Container {
+  z-index: 3;
+  background: var(--glass-surface-strong);
+  background-image: var(--glass-sheen);
+  color: white;
+  display: flex;
+  gap: 10px;
+  padding: 6px 8px;
+  font-size: 1rem;
+  width: calc(100% - 16px);
+  margin: 8px 8px 0;
+  border: 1px solid var(--glass-border);
+  border-radius: 18px;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  min-height: calc(var(--top-nav-height) - 8px);
+  height: calc(var(--top-nav-height) - 8px);
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(24px) saturate(145%);
+  -webkit-backdrop-filter: blur(24px) saturate(145%);
+  overflow: hidden;
+}
+
+.ToolGroups {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+}
+
+.ToolGroups::-webkit-scrollbar {
+  display: none;
+}
+
+.PathChooserContainer {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  border: 0;
+  background: var(--glass-control);
+  border-radius: 12px;
+}
+
+.PathSelectControl {
+  background: var(--accent-gradient) !important;
+  border-width: 0 !important;
+  border-radius: 10 !important;
+  width: 200px !important;
+  height: 20px !important;
+}
+
+.PathOptionContainer {
+  background-color: rgba(18, 19, 27, 0.94) !important;
+  color: white;
+  margin-left: 4;
+  margin-right: 0;
+  margin-bottom: 4;
+  width: 192;
+  min-height: 20px !important;
+  height: 20px !important;
+  border-radius: 6px;
+  cursor: default;
+}
+
+.PathOptionRenameInput {
+  background-color: transparent;
+  border: none;
+  color: white;
+  align-self: center;
+  border-bottom: solid white 2px;
+  z-index: top;
+}
+
+.ToggleGroup {
+  flex-shrink: 0;
+  gap: 2px;
+  margin: 0 !important;
+  padding: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px !important;
+  background: rgba(0, 0, 0, 0.16);
+}
+
+.ToolButton {
+  width: 34px;
+  min-width: 34px !important;
+  height: 34px;
+  padding: 0 !important;
+  color: rgba(241, 245, 255, 0.72) !important;
+  border: 0 !important;
+  border-radius: 9px !important;
+  transition:
+    color 120ms ease,
+    background 120ms ease,
+    transform 120ms ease !important;
+}
+
+.ToolButton:hover {
+  color: white !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.ToolButton:global(.Mui-selected) {
+  color: white !important;
+  background: linear-gradient(
+    180deg,
+    rgba(93, 164, 255, 0.42),
+    rgba(72, 124, 226, 0.28)
+  ) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(133, 190, 255, 0.38),
+    0 3px 9px rgba(21, 78, 173, 0.25);
+}
+
+.ToolButton:global(.Mui-selected):hover {
+  background: linear-gradient(
+    180deg,
+    rgba(102, 172, 255, 0.5),
+    rgba(72, 124, 226, 0.34)
+  ) !important;
+}
+
+.ActionArea {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 8px;
+  padding-left: 4px;
+}
+
+.ActionLabel {
+  color: rgba(226, 233, 247, 0.42);
+  font-size: 0.62rem;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+}
+
+.GenerateButton {
+  min-width: 112px !important;
+  height: 36px;
+  padding: 0 15px !important;
+  border: 1px solid rgba(137, 255, 193, 0.3) !important;
+  border-radius: 11px !important;
+  color: white !important;
+  background: linear-gradient(180deg, #34c77b, #209b5d) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.24),
+    0 5px 14px rgba(21, 162, 92, 0.25) !important;
+  font-size: 0.76rem !important;
+  font-weight: 750 !important;
+  letter-spacing: 0.015em !important;
+  text-transform: none !important;
+  transition:
+    filter 120ms ease,
+    transform 120ms ease,
+    box-shadow 120ms ease !important;
+}
+
+.GenerateButton:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    0 7px 17px rgba(21, 162, 92, 0.34) !important;
+}
+
+.GenerateButton:active {
+  transform: translateY(0);
+}
+
+.GenerateButton:global(.Mui-disabled) {
+  color: rgba(255, 255, 255, 0.38) !important;
+  border-color: rgba(255, 255, 255, 0.07) !important;
+  background: rgba(255, 255, 255, 0.065) !important;
+  box-shadow: none !important;
+}
+
+.CancelButton {
+  border-color: rgba(255, 153, 153, 0.3) !important;
+  background: linear-gradient(180deg, #e95b5b, #bd363d) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 5px 14px rgba(198, 46, 55, 0.25) !important;
+}
+
+.GenerateProgress {
+  margin-left: 8px;
+  color: rgba(255, 255, 255, 0.92) !important;
+}

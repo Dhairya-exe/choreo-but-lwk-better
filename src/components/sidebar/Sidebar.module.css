@@ -1,0 +1,388 @@
+.Container {
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: calc(100% - 16px);
+  width: calc(var(--sidebar-width) - 8px);
+  margin: 8px 0 8px 8px;
+  overflow: hidden;
+  color: white;
+  background: var(--glass-surface-strong);
+  background-image: var(--glass-sheen);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  box-shadow:
+    10px 8px 32px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(26px) saturate(150%);
+  -webkit-backdrop-filter: blur(26px) saturate(150%);
+}
+.Container > :not(hr, .Sidebar) {
+  padding-left: 8px;
+}
+
+.Sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  min-width: 100%;
+
+  box-sizing: border-box;
+  padding-block: 6px 10px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  --grid-gap: 8px;
+  --line-height: 32px;
+  --icon-size: 24px;
+}
+
+.SidebarHeading {
+  display: grid;
+  grid-template-columns: auto 33.6px;
+  height: fit-content;
+  align-items: center;
+  min-height: 34px;
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+}
+
+.Sidebar > :not(hr, :global(.MuiDivider-root)) {
+  padding-left: 8px;
+}
+
+.SidebarDivider span {
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.07em;
+}
+
+.WaypointList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.SweepGroups {
+  display: flex;
+  width: calc(100% - 12px);
+  margin: 2px 6px 6px;
+  padding: 4px;
+  box-sizing: border-box;
+  flex-direction: column;
+  gap: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  background: rgba(3, 5, 12, 0.22);
+}
+
+.SweepSelectionCreator {
+  display: grid;
+  padding: 7px;
+  grid-template-columns: 1fr auto auto;
+  gap: 5px;
+  border: 1px solid rgba(100, 210, 255, 0.3);
+  border-radius: 9px;
+  background: rgba(100, 210, 255, 0.09);
+}
+
+.SweepSelectionRange {
+  grid-column: 1 / -1;
+  color: var(--text-secondary);
+  font-size: 0.7rem;
+}
+
+.SweepSelectionCreator input {
+  min-width: 0;
+  padding: 5px 7px;
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 0.76rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 7px;
+  outline: none;
+  background: rgba(0, 0, 0, 0.22);
+}
+
+.SweepSelectionCreator input:focus {
+  border-color: rgba(100, 210, 255, 0.55);
+}
+
+.SweepSelectionCreator button,
+.SweepDropdown button {
+  display: inline-flex;
+  padding: 4px 6px;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 0.7rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+}
+
+.SweepSelectionCreator button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.SweepGroup {
+  display: grid;
+  min-height: 30px;
+  padding: 4px 7px;
+  grid-template-columns: 18px minmax(0, 1fr) auto 18px;
+  align-items: center;
+  gap: 7px;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 0.78rem;
+  text-align: left;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.SweepGroup:hover,
+.SweepGroupSelected {
+  color: var(--text-primary);
+  border-color: rgba(255, 255, 255, 0.07);
+  background: var(--glass-control-hover);
+}
+
+.SweepDropdown {
+  color: var(--text-secondary);
+  border: 1px solid transparent;
+  border-radius: 9px;
+}
+
+.SweepDropdown[open] {
+  color: var(--text-primary);
+  border-color: rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.SweepDropdown summary {
+  display: grid;
+  min-height: 30px;
+  padding: 4px 5px;
+  grid-template-columns: 18px 14px minmax(0, 1fr) auto 28px 28px;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.78rem;
+  list-style: none;
+  cursor: pointer;
+}
+
+.SweepDropdown summary::-webkit-details-marker {
+  display: none;
+}
+
+.SweepExpandIcon {
+  transition: transform 140ms ease;
+}
+
+.SweepDropdown[open] .SweepExpandIcon {
+  transform: rotate(180deg);
+}
+
+.SweepDropdown summary > button {
+  width: 26px;
+  height: 24px;
+  padding: 2px;
+  border: 0;
+  background: transparent;
+}
+
+.SweepDropdown summary > .DeleteSweepButton {
+  color: rgba(255, 135, 135, 0.68);
+}
+
+.SweepDropdown summary > .DeleteSweepButton:hover {
+  color: #ff7b7b;
+  background: rgba(255, 82, 82, 0.12);
+}
+
+.SweepDropdownWaypoints {
+  display: grid;
+  padding: 2px 7px 7px 25px;
+  gap: 2px;
+}
+
+.SweepDropdownWaypoints button {
+  display: grid;
+  min-height: 26px;
+  grid-template-columns: 8px minmax(0, 1fr) auto;
+  justify-content: stretch;
+  text-align: left;
+  border-color: transparent;
+  background: transparent;
+}
+
+.SweepDropdownWaypoints button:hover {
+  color: var(--text-primary);
+  background: var(--glass-control-hover);
+}
+
+.SweepSwatch {
+  width: 10px;
+  height: 10px;
+  margin-left: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 999px;
+  box-shadow: 0 0 9px currentColor;
+}
+
+.SweepName {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.SweepRange {
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.WaypointTypeWithSweeps {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 6px;
+}
+
+.WaypointSweepDots {
+  display: inline-flex;
+  min-width: 0;
+  gap: 3px;
+}
+
+.WaypointSweepDot {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 auto;
+  border-radius: 999px;
+}
+
+.SweepWaypointType {
+  overflow: hidden;
+  color: rgba(235, 235, 245, 0.42);
+  font-size: 0.64rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.SweepWaypointRangeSelected {
+  color: var(--text-primary) !important;
+  border-color: rgba(100, 210, 255, 0.44) !important;
+  background: rgba(100, 210, 255, 0.12) !important;
+}
+
+.UngroupedLabel,
+.SidebarTypeLabel {
+  width: calc(100% - 24px);
+  margin: 5px 12px 2px;
+  color: rgba(235, 235, 245, 0.42);
+  font-size: 0.61rem;
+  font-weight: 720;
+  letter-spacing: 0.1em;
+  text-align: left;
+}
+
+.SidebarTypeLabel {
+  margin-top: 8px;
+  color: rgba(235, 235, 245, 0.5);
+}
+
+.SidebarItem {
+  position: relative;
+  color: var(--text-primary);
+  border: 1px solid transparent;
+  height: 36px;
+  width: calc(100% - 12px);
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  margin: 2px 6px;
+  padding-left: 8px;
+  box-sizing: border-box;
+  text-align: left;
+  display: grid;
+  grid-template-columns: var(--icon-size) 1fr max-content;
+  align-items: center;
+  gap: var(--grid-gap);
+  padding-right: 8px;
+  user-select: none;
+  max-width: 100%;
+  border-radius: 11px;
+  transition:
+    background-color 140ms ease,
+    border-color 140ms ease,
+    transform 140ms ease;
+}
+
+.SidebarItem:hover:not(.Selected) {
+  background: var(--glass-control-hover);
+  border-color: rgba(255, 255, 255, 0.06);
+}
+.SidebarItem.Noninteractible {
+  width: calc(100% - 12px);
+  border-color: transparent;
+  background-color: transparent;
+}
+.Selected {
+  border-color: rgba(191, 182, 255, 0.26);
+  background: linear-gradient(
+    100deg,
+    rgba(139, 122, 245, 0.32),
+    rgba(139, 122, 245, 0.13)
+  );
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.Selected::before {
+  position: absolute;
+  left: 5px;
+  width: 3px;
+  height: 18px;
+  border-radius: 999px;
+  background: var(--select-yellow);
+  box-shadow: 0 0 10px rgba(255, 217, 90, 0.35);
+  content: "";
+}
+
+.SweepRangeSelected {
+  border-color: rgba(100, 210, 255, 0.5);
+  background: rgba(100, 210, 255, 0.13);
+  box-shadow: inset 0 0 0 1px rgba(100, 210, 255, 0.08);
+}
+.SidebarItem .SidebarIcon,
+.SidebarItem .SidebarRightIcon {
+  height: var(--icon-size);
+  width: var(--icon-size);
+}
+.SidebarItem button.SidebarIcon {
+  margin: 0;
+  padding: 0;
+}
+.SidebarItem .SidebarVerticalLine {
+  border-left: solid gray 1px;
+  height: calc(100% + var(--grid-gap));
+  transform: translate(calc(var(--icon-size) / 2), calc(var(--grid-gap) / -2));
+}
+.SidebarItem .SidebarLabel {
+  min-width: 0;
+  color: var(--text-primary);
+}
+.SidebarItem .SidebarRightIcon {
+  padding-right: 8px;
+}

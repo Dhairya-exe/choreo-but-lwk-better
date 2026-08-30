@@ -1,0 +1,58 @@
+.WaypointPanel {
+  overflow-x: hidden;
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 10px;
+  width: max-content;
+  background: var(--glass-surface-strong);
+  background-image: var(--glass-sheen);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  border: 1px solid var(--glass-border);
+  border-radius: 22px;
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+}
+.ViewOptionsPanel {
+  overflow-x: visible;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 6px;
+  width: fit-content;
+  background: var(--glass-surface-strong);
+  background-image: var(--glass-sheen);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  border: 1px solid var(--glass-border);
+  border-radius: 22px;
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+}
+.WaypointVisibilityPanel {
+  overflow-x: hidden;
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  padding: 10px;
+  width: min-content;
+  background: var(--glass-surface-strong);
+  background-image: var(--glass-sheen);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  border: 1px solid var(--glass-border);
+  border-radius: 22px;
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+}

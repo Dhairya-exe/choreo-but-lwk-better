@@ -1,0 +1,95 @@
+import { Delete as DeleteIcon } from "../icons/AppleIcons";
+import { IconButton, Tooltip } from "@mui/material";
+import { observer } from "mobx-react";
+import { getParent } from "mobx-state-tree";
+import { Component } from "react";
+import { WaypointUUID } from "../../document/schema/DocumentTypes";
+import { doc } from "../../document/DocumentManager";
+import { IEventMarkerStore } from "../../document/EventMarkerStore";
+import {
+  IHolonomicPathStore,
+  waypointIDToText
+} from "../../document/path/HolonomicPathStore";
+import styles from "./Sidebar.module.css";
+import { CommandVisualIcon } from "../config/eventmarker/CommandIconLibrary";
+import { getCommandAppearance } from "../config/eventmarker/CommandAppearance";
+import { markerHoldDuration } from "../field/PlaybackTiming";
+
+type Props = {
+  marker: IEventMarkerStore;
+};
+
+type State = { selected: boolean };
+
+class SidebarMarker extends Component<Props, State> {
+  id: number = 0;
+  state = { selected: false };
+  waypointIDToText(id: WaypointUUID | undefined) {
+    const points = getParent<IHolonomicPathStore>(
+      getParent<IEventMarkerStore[]>(this.props.marker)
+    ).params.waypoints;
+    return waypointIDToText(id, points);
+  }
+
+  render() {
+    const marker = this.props.marker;
+    const selected = this.props.marker.selected;
+    const appearance = getCommandAppearance(marker.event);
+    return (
+      <div
+        className={styles.SidebarItem + (selected ? ` ${styles.Selected}` : "")}
+        onClick={() => {
+          doc.setSelectedSidebarItem(marker);
+        }}
+      >
+        <CommandVisualIcon
+          icon={appearance.icon}
+          className={styles.SidebarIcon}
+          htmlColor={selected ? "var(--select-yellow)" : appearance.color}
+        />
+        <span
+          className={styles.SidebarLabel}
+          style={{ display: "grid", gridTemplateColumns: "1fr auto auto" }}
+        >
+          <Tooltip disableInteractive title={this.props.marker.name}>
+            <span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
+              {this.props.marker.name}
+            </span>
+          </Tooltip>
+          {/* {!isInSameSegment || marker.data.getTargetIndex() === undefined ? (
+            <Tooltip disableInteractive title={issueTitle}>
+              <PriorityHigh
+                className={styles.SidebarIcon}
+                style={{ color: "red" }}
+              ></PriorityHigh>
+            </Tooltip>
+          ) : (
+            <span></span>
+          )} */}
+          <span>
+            <span>{this.waypointIDToText(this.props.marker.from.target)} </span>
+            <span style={{}}>
+              (
+              {this.props.marker.from.waitsInPlace
+                ? `${markerHoldDuration(this.props.marker).toFixed(2)} s hold`
+                : `+${this.props.marker.from.offset.value.toFixed(2)} s`}
+              )
+            </span>
+          </span>
+        </span>
+        <Tooltip disableInteractive title="Delete Marker">
+          <IconButton
+            className={styles.SidebarRightIcon}
+            onClick={(e) => {
+              e.stopPropagation();
+              doc.pathlist.activePath.deleteMarkerUUID(marker?.uuid || "");
+            }}
+          >
+            <DeleteIcon />
+          </IconButton>
+        </Tooltip>
+      </div>
+    );
+  }
+}
+export default observer(SidebarMarker);

@@ -1,0 +1,24 @@
+build/
+node_modules/
+src-tauri/gen/
+target/
+trajoptlib/Cargo.lock
+
+# CMake
+CMakeUserPresets.json
+
+# Python
+*.egg-info/
+__pycache__/
+dist/
+
+# Visual Studio Code
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# macOS
+.DS_Store
+
+# mkdocs
+site/

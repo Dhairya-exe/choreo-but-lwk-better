@@ -1,0 +1,193 @@
+name: ChoreoLib
+
+on: [push, pull_request]
+
+jobs:
+  build-docker:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - container: wpilib/roborio-cross-ubuntu:2025-24.04
+            artifact-name: Athena
+            build-options: -Ponlylinuxathena
+
+          - container: wpilib/raspbian-cross-ubuntu:bookworm-24.04
+            artifact-name: Linux-arm32
+            build-options: -Ponlylinuxarm32
+
+          - container: wpilib/aarch64-cross-ubuntu:bookworm-24.04
+            artifact-name: Linux-arm64
+            build-options: -Ponlylinuxarm64
+
+          - container: wpilib/ubuntu-base:24.04
+            artifact-name: Linux-x86_64
+            build-options:
+
+    name: C++ and Java - ${{ matrix.artifact-name }}
+    runs-on: ubuntu-24.04
+    container: ${{ matrix.container }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: true
+          fetch-depth: 0
+          persist-credentials: false
+          token: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Fetch all history and metadata
+        run: |
+          git config --global --add safe.directory /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
+
+      - name: Set version (release)
+        if: github.repository_owner == 'SleipnirGroup' && startsWith(github.ref, 'refs/tags/v')
+        working-directory: choreolib
+        run: sed -i "s/0.0.0/${GITHUB_REF##*v}/g" publish.gradle
+
+      - name: Build with Gradle
+        working-directory: choreolib
+        run: ./gradlew build ${{ matrix.build-options }}
+
+      - name: Publish with Gradle (release)
+        if: github.repository_owner == 'SleipnirGroup' && startsWith(github.ref, 'refs/tags/v')
+        working-directory: choreolib
+        run: ./gradlew publish ${{ matrix.build-options }}
+        env:
+          ARTIFACTORY_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}
+          ARTIFACTORY_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }}
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: ${{ matrix.artifact-name }}
+          path: choreolib/build/allOutputs
+
+  build-host:
+    env:
+      MACOSX_DEPLOYMENT_TARGET: 13.3
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-2025
+            artifact-name: Windows-x86_64
+            build-options:
+
+          # FIXME: Link failure on commands library
+          # - os: windows-2025
+          #   artifact-name: Windows-aarch64
+          #   build-options: -Pbuildwinarm64 -Ponlywindowsarm64
+
+          - os: macos-15
+            artifact-name: macOS-universal
+            build-options:
+
+    name: C++ and Java - ${{ matrix.artifact-name }}
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: true
+          persist-credentials: false
+          token: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Fetch all history and metadata
+        run: git fetch --prune --unshallow
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: "temurin"
+          java-version: 17
+
+      # 6/27/25: an Actions issue makes GITHUB_REF unset on Windows
+      - name: Set version (Windows release)
+        if: runner.os == 'Windows' && github.repository_owner == 'SleipnirGroup' && startsWith(github.ref, 'refs/tags/v')
+        run: |
+          tag="${{ github.ref }}"
+          sed -i "s/0.0.0/${tag##*v}/g" publish.gradle
+          ./gradlew spotlessApply  # Undo line ending changes from sed
+        shell: bash
+        working-directory: choreolib
+
+      - name: Set version (macOS release)
+        if: runner.os == 'macOS' && github.repository_owner == 'SleipnirGroup' && startsWith(github.ref, 'refs/tags/v')
+        run: sed -i '' "s/0.0.0/${GITHUB_REF##*v}/g" publish.gradle
+        working-directory: choreolib
+
+      - name: Build with Gradle
+        working-directory: choreolib
+        run: ./gradlew build ${{ matrix.build-options }}
+
+      - name: Build with Gradle (release)
+        if: github.repository_owner == 'SleipnirGroup' && startsWith(github.ref, 'refs/tags/v')
+        working-directory: choreolib
+        run: ./gradlew publish ${{ matrix.build-options }}
+        env:
+          ARTIFACTORY_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}
+          ARTIFACTORY_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }}
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: ${{ matrix.artifact-name }}
+          path: choreolib/build/allOutputs
+
+  vendordep:
+    name: Upload vendordep JSON
+    runs-on: ubuntu-slim
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+          token: ${{secrets.GITHUB_TOKEN}}
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: ChoreoLib-json
+          path: choreolib/ChoreoLib2026Beta.json
+
+  build-python:
+    name: Python
+    runs-on: ubuntu-slim
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          token: ${{secrets.GITHUB_TOKEN}}
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: 3.12
+
+      - run: pip install build mypy numpy pytest scipy scipy-stubs wheel wpilib
+
+      - run: python -m build
+        working-directory: ./choreolib/py
+      - run: pip install --no-cache-dir dist/*.whl
+        working-directory: ./choreolib/py
+      - run: pytest
+        working-directory: ./choreolib/py
+      - run: mypy --pretty --show-column-numbers choreolib/py
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: Python
+          path: ./choreolib/py/dist
+
+  pypi-publish:
+    name: Upload release to PyPI
+    runs-on: ubuntu-24.04
+    needs: [build-python]
+    if: github.repository_owner == 'SleipnirGroup' && startsWith(github.ref, 'refs/tags/v')
+    environment:
+      name: pypi
+      url: https://pypi.org/p/sleipnirgroup-choreolib
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          path: dist
+          pattern: "Python"
+          merge-multiple: true
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1

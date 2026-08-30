@@ -1,0 +1,59 @@
+use thiserror::Error;
+
+// Error messages and codes from:
+// https://github.com/SleipnirGroup/Sleipnir/blob/v0.5.0/include/sleipnir/optimization/solver/exit_status.hpp
+
+#[derive(Debug, Error)]
+pub enum TrajoptError {
+    #[error("Too few degrees of freedom")]
+    TooFewDOFs,
+    #[error("Locally infeasible")]
+    LocallyInfeasible,
+    #[error("Globally infeasible")]
+    GloballyInfeasible,
+    #[error("Factorization failed")]
+    FactorizationFailed,
+    #[error("Line search failed")]
+    LineSearchFailed,
+    #[error("Feasibility restoration failed")]
+    FeasibilityRestorationFailed,
+    #[error("Nonfinite initial guess")]
+    NonfiniteInitialGuess,
+    #[error("Diverging iterates")]
+    DivergingIterates,
+    #[error("Max iterations exceeded")]
+    MaxIterationsExceeded,
+    #[error("Timeout")]
+    Timeout,
+    #[error("Unparsable error code: {0}")]
+    Unparsable(Box<str>),
+    #[error("Unknown error: {0:?}")]
+    Unknown(i8),
+}
+
+impl From<i8> for TrajoptError {
+    fn from(value: i8) -> Self {
+        match value {
+            -1 => Self::TooFewDOFs,
+            -2 => Self::LocallyInfeasible,
+            -3 => Self::GloballyInfeasible,
+            -4 => Self::FactorizationFailed,
+            -5 => Self::LineSearchFailed,
+            -6 => Self::FeasibilityRestorationFailed,
+            -7 => Self::NonfiniteInitialGuess,
+            -8 => Self::DivergingIterates,
+            -9 => Self::MaxIterationsExceeded,
+            -10 => Self::Timeout,
+            _ => Self::Unknown(value),
+        }
+    }
+}
+
+impl serde::Serialize for TrajoptError {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        format!("{self}").serialize(serializer)
+    }
+}
